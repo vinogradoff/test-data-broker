@@ -19,7 +19,7 @@ public class TestDataController {
         repo.put(dictionary, actualDict);
     }
 
-    @GetMapping("/claim/{dictionary}/{key}")
+    @PutMapping("/claim/{dictionary}/{key}")
     public String claimData(@PathVariable String dictionary, @PathVariable String key) {
         var actialDict = repo.get(dictionary);
         var data=actialDict.get(key);
