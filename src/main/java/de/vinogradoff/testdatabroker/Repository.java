@@ -9,7 +9,7 @@ import java.util.*;
 public class Repository {
 
     @Bean
-    public Map<String, Map<String, String>> getRepo() {
+    public Map<String, Map<String, List<String>>> getRepo() {
         return new HashMap<>();
     }
 }

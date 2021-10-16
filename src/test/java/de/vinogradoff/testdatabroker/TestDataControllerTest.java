@@ -20,14 +20,14 @@ public class TestDataControllerTest {
         controller.saveData("dict", "key", "value");
         // assert
         assertThat(controller.repo).containsKey("dict");
-        assertThat(controller.repo.get("dict").get("key")).isEqualTo("value");
+        assertThat(controller.repo.get("dict").get("key")).isEqualTo(List.of("value"));
     }
 
 
     @Test
     void shouldGetDataFromRepoMultipleTimes() {
         // arrange
-        controller.repo.put("dict", new HashMap<>(Map.of("key1", "value1")));
+        controller.repo.put("dict", new HashMap<>(Map.of("key1", new ArrayList<>(List.of("value1")))));
 
         // act
         var value1 = controller.readData("dict", "key1");
@@ -41,7 +41,7 @@ public class TestDataControllerTest {
     @Test
     void shouldClaimDataFromRepoJustOnce() {
         // arrange
-        controller.repo.put("dict", new HashMap<>(Map.of("key2", "value2")));
+        controller.repo.put("dict", new HashMap<>(Map.of("key2", new ArrayList<>(List.of("value2")))));
 
         // act
         var value1 = controller.claimData("dict", "key2");
