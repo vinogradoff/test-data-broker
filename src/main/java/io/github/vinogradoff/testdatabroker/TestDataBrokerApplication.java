@@ -1,4 +1,4 @@
-package de.vinogradoff.testdatabroker;
+package io.github.vinogradoff.testdatabroker;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;

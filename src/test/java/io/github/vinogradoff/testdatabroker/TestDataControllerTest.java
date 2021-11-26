@@ -1,4 +1,4 @@
-package de.vinogradoff.testdatabroker;
+package io.github.vinogradoff.testdatabroker;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
