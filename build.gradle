@@ -25,7 +25,7 @@ allprojects {
 }
 
 group = 'io.github.vinogradoff'
-version = '0.0.1'
+version = '0.0.2'
 
 mavenPublishing{
 	pom{
@@ -59,6 +59,16 @@ java {
 	}
 }
 
+jar{
+	enabled = false
+}
+publishing {
+	publications {
+		bootJava(MavenPublication) {
+			artifact bootJar
+		}
+	}
+}
 repositories {
 	mavenCentral()
 }
