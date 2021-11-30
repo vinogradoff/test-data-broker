@@ -13,18 +13,45 @@ plugins {
 	id 'java'
 }
 
-apply plugin: "com.vanniktech.maven.publish"
+apply plugin: 'com.vanniktech.maven.publish'
 
 allprojects {
-	plugins.withId("com.vanniktech.maven.publish") {
+	plugins.withId('com.vanniktech.maven.publish') {
 		mavenPublish {
-			sonatypeHost = "S01"
+			sonatypeHost = 'S01'
+
 		}
 	}
 }
 
 group = 'io.github.vinogradoff'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
+
+mavenPublishing{
+	pom{
+		name='Test Data Broker'
+		description='Spring Boot Application to manage test data'
+		url = 'https://github.com/vinogradoff/test-data-broker'
+		inceptionYear = '2021'
+		licenses {
+			license {
+				name = 'MIT'
+				url = 'https://opensource.org/licenses/MIT'
+			}
+		}
+		developers {
+			developer {
+				id = 'vinogradoff'
+				name = 'Alexei Vinogradov'
+			}
+		}
+		scm {
+			connection = 'scm:git@github.com:vinogradoff/test-data-broker.git'
+			developerConnection = 'scm:git@github.com:vinogradoff/test-data-broker'
+			url = 'https://github.com/vinogradoff/test-data-broker'
+		}
+	}
+}
 
 java {
 	toolchain {
