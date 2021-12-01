@@ -18,6 +18,7 @@ public class TestDataController {
         var actualValue = actualDict.getOrDefault(key, new ArrayList<>());
         actualValue.add(value);
         actualDict.put(key, actualValue);
+        System.out.println(dictionary + ": " + actualDict);
         repo.put(dictionary, actualDict);
     }
 
@@ -25,12 +26,12 @@ public class TestDataController {
     public String claimData(@PathVariable String dictionary, @PathVariable String key) {
         var actualDict = repo.get(dictionary);
         var actualData = actualDict.get(key);
-        if (actualData == null && actualData.size() == 0) return null;
+        if (actualData == null || actualData.size() == 0) return null;
         var value = actualData.get(0);
         actualData.remove(0);
-        if (actualData.size() == 0) actualDict.remove(key);
-        actualDict.put("key", actualData);
+        actualDict.put(key, actualData);
         repo.put(dictionary, actualDict);
+        System.out.println(dictionary + ": " + actualDict);
         return value;
     }
 
@@ -38,7 +39,8 @@ public class TestDataController {
     public String readData(@PathVariable String dictionary, @PathVariable String key) {
         var actualDict = repo.get(dictionary);
         var actualData = actualDict.get(key);
-        if (actualData == null) return null;
+        System.out.println(dictionary + ": " + actualDict);
+        if (actualData == null || actualData.size() == 0) return null;
         else return actualData.get(0);
     }
 }
