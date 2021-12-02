@@ -15,6 +15,7 @@ public class TestDataController {
     Map<String, Map<String, List<String>>> repo;
 
     @PostMapping("/write/{dictionary}/{key}")
+    @ResponseStatus(HttpStatus.CREATED)
     public void saveData(@PathVariable String dictionary, @PathVariable String key, @RequestParam String value) {
         var actualDict = repo.getOrDefault(dictionary, new HashMap<>());
         var actualValue = actualDict.getOrDefault(key, new ArrayList<>());
