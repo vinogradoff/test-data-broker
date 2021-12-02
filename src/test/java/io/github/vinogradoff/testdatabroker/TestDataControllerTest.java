@@ -3,6 +3,7 @@ package io.github.vinogradoff.testdatabroker;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
+import org.springframework.web.server.*;
 
 import java.util.*;
 
@@ -13,6 +14,11 @@ public class TestDataControllerTest {
 
     @Autowired
     TestDataController controller;
+
+    @BeforeEach
+    void initRepo() {
+        controller.repo = new HashMap<>();
+    }
 
     @Test
     void shouldPutDataInRepo() {
@@ -54,11 +60,12 @@ public class TestDataControllerTest {
 
         // act
         var value1 = controller.claimData("dict", "key2");
-        var value2 = controller.readData("dict", "key2");
 
         // assert
         assertThat(value1).isEqualTo("value2");
-        assertThat(value2).isNull();
+        assertThatThrownBy(() -> controller.readData("dict", "key2"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessage("204 NO_CONTENT");
     }
 
     @Test
@@ -69,11 +76,57 @@ public class TestDataControllerTest {
         // act
         var value1 = controller.claimData("dict", "key2");
         var value2 = controller.claimData("dict", "key2");
-        var value3 = controller.readData("dict", "key2");
 
         // assert
         assertThat(value1).isEqualTo("value1");
         assertThat(value2).isEqualTo("value2");
-        assertThat(value3).isNull();
+
+        assertThatThrownBy(() -> controller.readData("dict", "key2"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessage("204 NO_CONTENT");
+
+    }
+
+    @Test
+    void shouldReturn204IfNoValuesForKey() {
+        // arrange
+        controller.repo.put("dict", new HashMap<>(Map.of("key1", new ArrayList<>())));
+        // act & assert
+        assertThatThrownBy(() -> controller.readData("dict", "key1"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessage("204 NO_CONTENT");
+
+        assertThatThrownBy(() -> controller.claimData("dict", "key1"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessage("204 NO_CONTENT");
+    }
+
+    @Test
+    void shouldReturn404IfDictionaryDoesntExist() {
+        // act & assert
+        assertThatThrownBy(() -> controller.readData("dict", "key1"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContainingAll("404 NOT_FOUND", "dict doesn't exist");
+
+        assertThatThrownBy(() -> controller.claimData("dict", "key1"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContainingAll("404 NOT_FOUND", "dict doesn't exist");
+
+    }
+
+    @Test
+    void shouldReturn404IfKeyDoesntExist() {
+        //arrange
+        controller.repo.put("dict1", new HashMap<>(Map.of("key1", new ArrayList<>())));
+
+        // act & assert
+        assertThatThrownBy(() -> controller.readData("dict1", "key2"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContainingAll("404 NOT_FOUND", "key2 doesn't exist", "dict1");
+
+        assertThatThrownBy(() -> controller.claimData("dict1", "key2"))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContainingAll("404 NOT_FOUND", "key2 doesn't exist", "dict1");
+
     }
 }

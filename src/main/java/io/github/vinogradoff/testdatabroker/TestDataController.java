@@ -1,7 +1,9 @@
 package io.github.vinogradoff.testdatabroker;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.*;
 
 import java.util.*;
 
@@ -25,8 +27,12 @@ public class TestDataController {
     @PutMapping("/claim/{dictionary}/{key}")
     public String claimData(@PathVariable String dictionary, @PathVariable String key) {
         var actualDict = repo.get(dictionary);
+        if (actualDict == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dictionary " + dictionary + " doesn't exist yet.");
         var actualData = actualDict.get(key);
-        if (actualData == null || actualData.size() == 0) return null;
+        if (actualData == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key " + key + " doesn't exist in the " + dictionary);
+        if (actualData.size() == 0) throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         var value = actualData.get(0);
         actualData.remove(0);
         actualDict.put(key, actualData);
@@ -38,9 +44,13 @@ public class TestDataController {
     @GetMapping("/read/{dictionary}/{key}")
     public String readData(@PathVariable String dictionary, @PathVariable String key) {
         var actualDict = repo.get(dictionary);
+        if (actualDict == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dictionary " + dictionary + " doesn't exist yet.");
         var actualData = actualDict.get(key);
         System.out.println(dictionary + ": " + actualDict);
-        if (actualData == null || actualData.size() == 0) return null;
+        if (actualData == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key " + key + " doesn't exist in the " + dictionary);
+        if (actualData.size() == 0) throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         else return actualData.get(0);
     }
 }
