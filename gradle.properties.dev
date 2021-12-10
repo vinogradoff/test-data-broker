@@ -1,0 +1,9 @@
+mavenCentralUsername=<username_nexus_maven>
+mavenCentralPassword=<pwd>
+signing.keyId=<keyId of created pgp key>
+signing.password=<pgp key pwd>
+signing.secretKeyRingFile=/Users/vinogradov/.m2/secret-keys.gpg
+
+
+
+

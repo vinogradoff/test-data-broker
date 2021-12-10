@@ -23,3 +23,15 @@ Run on default port 8080
 Run on any port
 
 `java - jar test-data-broker-x.y.z.jar --server.port=<port>`
+
+## Run with docker
+
+amd64 and arm64 are supported.
+
+Run on default port 8080
+
+`docker run -dp 8080:8080 vinogradoff/test-data-broker:latest`
+
+Run on any port
+
+`docker run -dp <port>:8080 vinogradoff/test-data-broker:latest`
