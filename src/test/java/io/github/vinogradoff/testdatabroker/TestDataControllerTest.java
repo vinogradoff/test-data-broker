@@ -17,7 +17,7 @@ public class TestDataControllerTest {
 
     @BeforeEach
     void initRepo() {
-        controller.repo = new HashMap<>();
+        controller.repo.clear();
     }
 
     @Test
