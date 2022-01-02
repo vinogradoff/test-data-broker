@@ -59,6 +59,10 @@ java {
 	}
 }
 
+springBoot  {
+	buildInfo()
+}
+
 jar{
 	enabled = false
 }
@@ -77,6 +81,8 @@ ext['log4j2.version'] = '2.17.0'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.0'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.0'
 	testImplementation 'org.assertj:assertj-core:3.21.0'
 }
