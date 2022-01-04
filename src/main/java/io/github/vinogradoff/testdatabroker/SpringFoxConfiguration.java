@@ -22,6 +22,7 @@ public class SpringFoxConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.github.vinogradoff"))
                 .build()
+                .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo());
     }
 
