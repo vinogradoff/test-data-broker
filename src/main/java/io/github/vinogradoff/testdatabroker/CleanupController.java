@@ -18,7 +18,9 @@ public class CleanupController {
     @PutMapping("/clear/{dictionary}/{key}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "clears data for given key", notes = "deletes all data values in dataset under given key")
-    public void clearData(@PathVariable String dictionary, @PathVariable String key) {
+    public void clearData(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                      String dictionary,
+                          @PathVariable @ApiParam(value="key", example = "active user", required = true) String key) {
         var actualDict = repo.getOrDefault(dictionary, new HashMap<>());
         actualDict.put(key, new ArrayList<>());
         System.out.println(dictionary + ": " + actualDict);
@@ -28,7 +30,10 @@ public class CleanupController {
     @DeleteMapping("/delete/{dictionary}/{key}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "deletes given key", notes = "deletes given key from dataset")
-    public void deleteKey(@PathVariable String dictionary, @PathVariable String key) {
+    public void deleteKey(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                  String dictionary,
+                          @PathVariable  @ApiParam(value="key", example = "active user", required = true)
+                                  String key) {
         var actualDict = repo.getOrDefault(dictionary, new HashMap<>());
         actualDict.remove(key);
         System.out.println(dictionary + ": " + actualDict);
@@ -38,7 +43,8 @@ public class CleanupController {
     @DeleteMapping("/delete/{dictionary}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "deletes given dataset", notes = "deletes dataset including all its keys")
-    public void deleteDictionary(@PathVariable String dictionary) {
+    public void deleteDictionary(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                             String dictionary) {
         repo.remove(dictionary);
         System.out.println(dictionary + ": DELETED.");
     }

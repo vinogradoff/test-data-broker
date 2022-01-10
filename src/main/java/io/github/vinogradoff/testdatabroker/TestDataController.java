@@ -22,7 +22,12 @@ public class TestDataController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success")
     })
-    public void saveData(@PathVariable String dictionary, @PathVariable String key, @RequestParam String value) {
+    public void saveData(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                 String dictionary,
+                         @PathVariable @ApiParam(value= "key", example = "active user", required = true)
+                                 String key,
+                         @RequestParam @ApiParam(value="value", example = "demo@acme.com", required = true)
+                                 String value) {
         var actualDict = repo.getOrDefault(dictionary, new HashMap<>());
         var actualValue = actualDict.getOrDefault(key, new ArrayList<>());
         actualValue.add(value);
@@ -36,10 +41,13 @@ public class TestDataController {
             "this data value is deleted and not available for next calls. 204 returned, if no more data values exist in Broker")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 204, message = "No data found for given key"),
+            @ApiResponse(code = 204, message = "No data found for given key", response = void.class),
             @ApiResponse(code = 404, message = "Either key or dataset not found")
     })
-    public String claimData(@PathVariable String dictionary, @PathVariable String key) {
+    public String claimData(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                    String dictionary,
+                            @PathVariable @ApiParam(value="key", example = "active user", required = true)
+                                    String key) {
         var actualDict = repo.get(dictionary);
         if (actualDict == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dictionary " + dictionary + " doesn't exist yet.");
@@ -63,7 +71,10 @@ public class TestDataController {
             @ApiResponse(code = 204, message = "No data found for given key", response = void.class),
             @ApiResponse(code = 404, message = "Either key or dataset not found")
     })
-    public String readData(@PathVariable String dictionary, @PathVariable String key) {
+    public String readData(@PathVariable @ApiParam(value="dataset", example = "myService-prod", required = true)
+                                   String dictionary,
+                           @PathVariable @ApiParam(value="key", example = "active user", required = true)
+                                   String key) {
         var actualDict = repo.get(dictionary);
         if (actualDict == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dictionary " + dictionary + " doesn't exist yet.");
