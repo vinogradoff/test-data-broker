@@ -1,13 +1,18 @@
 package io.github.vinogradoff.testdatabroker;
 
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.context.*;
-import org.springframework.web.server.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class TestDataControllerTest {
@@ -102,7 +107,7 @@ public class TestDataControllerTest {
     }
 
     @Test
-    void shouldReturn404IfDictionaryDoesntExist() {
+    void shouldReturn404IfDatasetDoesntExist() {
         // act & assert
         assertThatThrownBy(() -> controller.readData("dict", "key1"))
                 .isInstanceOf(ResponseStatusException.class)

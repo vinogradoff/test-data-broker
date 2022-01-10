@@ -1,11 +1,13 @@
 package io.github.vinogradoff.testdatabroker;
 
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.context.*;
-import org.springframework.web.server.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.server.ResponseStatusException;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class CleanupControllerTest {
@@ -45,11 +47,11 @@ public class CleanupControllerTest {
 
 
     @Test
-    void shouldDeleteDictionary() {
+    void shouldDeleteDataset() {
         // arrange
         dataController.saveData("dict2", "key", "value");
         // act
-        cleanUpController.deleteDictionary("dict2");
+        cleanUpController.deleteDataset("dict2");
         //assert
         assertThatThrownBy(() ->
                 dataController.readData("dict2", "key2"))
