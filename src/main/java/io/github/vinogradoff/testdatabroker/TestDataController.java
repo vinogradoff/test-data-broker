@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Managing test data", description = "Managing test data")
+@Api(value = "Managing test data", description = "Managing test data: a dataset can contain multiple values under a given key.")
 public class TestDataController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class TestDataController {
                                  String dataset,
                          @PathVariable @ApiParam(value = "key", example = "active user", required = true)
                                  String key,
-                         @RequestParam @ApiParam(value = "value", example = "demo@acme.com", required = true)
+                         @RequestParam @ApiParam(value = "value to be added under the key", example = "demo@acme.com", required = true)
                                  String value) {
         var actualDict = repo.getOrDefault(dataset, new HashMap<>());
         var actualValue = actualDict.getOrDefault(key, new ArrayList<>());
