@@ -8,7 +8,13 @@ Run on default port 8080
 
 Run on any port
 
-`./gradlew bootRun --args='--server.port=<port>`
+`./gradlew bootRun --args='--server.port=<port>'`
+
+## Swagger Documentation of the API
+
+If installed locally:
+
+http://localhost:8080/swagger-ui.html
 
 ## Build fat executable jar
 
